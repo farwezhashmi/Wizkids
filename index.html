@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WIZKIDS - Quiz & IQ Testing Platform</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Interactive learning and self-assessment</p>
+        <h1>WIZKIDS</h1>
+        <p class="hero-text">
+          WIZKIDS is a Quiz and IQ Testing Platform designed for school students to evaluate both
+          academic knowledge and logical reasoning through structured quizzes, IQ-based assessments,
+          instant feedback, automated scoring, and easy-to-follow performance tracking.
+        </p>
+      </div>
+      <div class="hero-panel">
+        <div class="hero-stat">
+          <span class="hero-stat-value">Interactive</span>
+          <span class="hero-stat-label">Quiz experience</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">Instant</span>
+          <span class="hero-stat-label">Feedback and scoring</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">Smart</span>
+          <span class="hero-stat-label">Performance tracking</span>
+        </div>
+      </div>
+    </header>
+
+    <main id="app"></main>
+  </div>
+
+  <template id="login-template">
+    <section class="login-layout">
+      <section class="login-card glass-card">
+        <div class="login-copy">
+          <p class="section-kicker">Welcome to WIZKIDS</p>
+          <h2>Login to begin your quiz journey</h2>
+          <p class="hero-text">
+            Sign in to access separate quiz tracks for students and kids, get instant feedback,
+            and follow your performance through every assessment.
+          </p>
+        </div>
+
+        <form id="login-form" class="login-form" novalidate>
+          <label class="form-field">
+            <span>Full name</span>
+            <input id="login-name" name="name" type="text" placeholder="Enter your name" required>
+          </label>
+
+          <label class="form-field">
+            <span>Email address</span>
+            <input id="login-email" name="email" type="email" placeholder="Enter your email" required>
+          </label>
+
+          <label class="form-field">
+            <span>Password</span>
+            <input id="login-password" name="password" type="password" placeholder="Enter your password" required>
+          </label>
+
+          <label class="form-field">
+            <span>Learner type</span>
+            <select id="login-audience" name="audience" required>
+              <option value="">Select learner type</option>
+              <option value="student">Student</option>
+              <option value="kid">Kid</option>
+            </select>
+          </label>
+
+          <p id="login-error" class="form-error hidden"></p>
+
+          <div class="login-actions">
+            <button class="primary-btn" type="submit">Login</button>
+          </div>
+        </form>
+      </section>
+
+      <aside class="login-aside glass-card">
+        <p class="section-kicker">Why login</p>
+        <h3>Personalized assessment flow</h3>
+        <div class="login-points">
+          <article>
+            <strong>Separate tracks</strong>
+            <p>Students and kids enter different quiz sets designed for their level.</p>
+          </article>
+          <article>
+            <strong>Focused practice</strong>
+            <p>Choose subject-wise rounds or mixed assessments after sign-in.</p>
+          </article>
+          <article>
+            <strong>Quick progress view</strong>
+            <p>Track scores, attempts, and improvement in a simple interface.</p>
+          </article>
+        </div>
+      </aside>
+    </section>
+  </template>
+
+  <template id="home-template">
+    <section class="welcome-strip glass-card">
+      <div>
+        <p class="section-kicker">Signed in</p>
+        <h2 id="welcome-title"></h2>
+        <p id="welcome-text" class="muted"></p>
+      </div>
+      <button id="logout-btn" class="ghost-btn" type="button">Logout</button>
+    </section>
+
+    <section class="intro-card glass-card">
+      <div>
+        <p class="section-kicker">Platform overview</p>
+        <h2>Technology and education working together</h2>
+        <p class="hero-text">
+          The WIZKIDS platform provides an interactive and user-friendly environment where school
+          students can test what they know, strengthen their reasoning skills, and identify both
+          strengths and areas for improvement. It also demonstrates the practical use of Core Java
+          concepts while supporting efficient and accessible self-assessment.
+        </p>
+      </div>
+      <div class="intro-grid">
+        <article>
+          <h3>Engaging</h3>
+          <p>Structured quizzes and IQ-style assessments make practice more active and motivating.</p>
+        </article>
+        <article>
+          <h3>Insightful</h3>
+          <p>Automated scoring and instant feedback help learners quickly understand their performance.</p>
+        </article>
+        <article>
+          <h3>Expandable</h3>
+          <p>The system can be enhanced further with advanced features for modern digital learning.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="subject-section">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">Choose learner type</p>
+          <h2>Pick Student or Kid</h2>
+        </div>
+        <p class="section-note">Selecting a learner type opens a separate quiz path with age-appropriate topics.</p>
+      </div>
+      <div class="subject-grid" id="audience-grid"></div>
+    </section>
+
+    <section class="subject-section">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">Choose a mode</p>
+          <h2 id="subject-title-home">Choose a learner track</h2>
+        </div>
+        <p id="subject-note-home" class="section-note">Select Student or Kid first to open a separate set of matching quizzes.</p>
+      </div>
+      <div id="subject-selection-note" class="selection-hint glass-card">
+        Choose a learner type above to load the correct quiz set.
+      </div>
+      <div class="subject-grid" id="subject-grid"></div>
+    </section>
+  </template>
+
+  <template id="quiz-template">
+    <section class="quiz-layout">
+      <aside class="sidebar glass-card">
+        <div class="sidebar-block">
+          <p class="section-kicker">Current run</p>
+          <h2 id="subject-title"></h2>
+          <p id="subject-subtitle" class="muted"></p>
+        </div>
+
+        <div class="progress-panel">
+          <div class="progress-meta">
+            <span id="progress-label"></span>
+            <span id="score-label"></span>
+          </div>
+          <div class="progress-track">
+            <div id="progress-bar" class="progress-bar"></div>
+          </div>
+        </div>
+
+        <div class="boosts-panel">
+          <p class="section-kicker">One-time boosts</p>
+          <div class="boost-grid" id="boost-grid"></div>
+        </div>
+
+        <button id="exit-btn" class="ghost-btn" type="button">Exit quiz</button>
+      </aside>
+
+      <section class="question-panel glass-card">
+        <div class="question-topline">
+          <span id="question-tag" class="question-tag"></span>
+          <span id="question-counter" class="question-counter"></span>
+        </div>
+
+        <h2 id="question-text" class="question-text"></h2>
+
+        <div id="options-list" class="options-list"></div>
+
+        <div id="feedback-box" class="feedback-box hidden"></div>
+        <div id="explanation-box" class="explanation-box hidden"></div>
+
+        <div class="action-row">
+          <button id="primary-btn" class="primary-btn" type="button"></button>
+        </div>
+      </section>
+    </section>
+  </template>
+
+  <template id="result-template">
+    <section class="result-layout">
+      <section class="result-hero glass-card">
+        <p class="section-kicker">Quiz complete</p>
+        <h2 id="result-title"></h2>
+        <p id="result-summary" class="result-summary"></p>
+        <div class="result-stats">
+          <div class="result-stat">
+            <span class="result-stat-value" id="correct-stat"></span>
+            <span class="result-stat-label">Correct</span>
+          </div>
+          <div class="result-stat">
+            <span class="result-stat-value" id="attempted-stat"></span>
+            <span class="result-stat-label">Attempted</span>
+          </div>
+          <div class="result-stat">
+            <span class="result-stat-value" id="skipped-stat"></span>
+            <span class="result-stat-label">Skipped</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="analysis-grid">
+        <article class="glass-card insight-card">
+          <p class="section-kicker">Next move</p>
+          <h3 id="result-message-title"></h3>
+          <p id="result-message-body" class="muted"></p>
+        </article>
+
+        <article class="glass-card insight-card">
+          <p class="section-kicker">Performance tracking</p>
+          <h3>Subject-wise breakdown</h3>
+          <div id="result-breakdown" class="breakdown-list"></div>
+        </article>
+      </section>
+
+      <div class="result-actions">
+        <button id="retry-btn" class="primary-btn" type="button">Retry quiz</button>
+        <button id="home-btn" class="ghost-btn" type="button">Choose another subject</button>
+      </div>
+    </section>
+  </template>
+
+  <div id="overlay" class="overlay hidden"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
